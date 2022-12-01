@@ -6,7 +6,7 @@ sum = 0
 max_sum = 0
 
 for line in input:
-    if line == '\n':
+    if line == '\n' or '\n' not in line:
         if sum > max_sum:
             max_sum = sum
         sum = 0
