@@ -3,8 +3,15 @@ def read_input():
         return f.readlines()
 
 
+def parse_input(input):
+    parsed_input = [line.replace('\n', '') for line in input]
+
+    return parsed_input
+
+
 def main():
     input = read_input()
+    input = parse_input(read_input())
     
 
 
