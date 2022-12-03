@@ -9,11 +9,6 @@ def parse_input(input):
     return parsed_input
 
 
-def print_input(input):
-    for line in range(len(input)):
-        print(input[line])
-
-
 def calculate_priority(char):
     if char.islower():
         return ord(char) - 96
