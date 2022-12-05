@@ -26,7 +26,6 @@ def main():
 
     for stack in stacks:
         print(stack)
-    
 
 
 if __name__ == '__main__':
