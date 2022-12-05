@@ -33,28 +33,35 @@ def get_moves(input):
 
 
 def make_move(move, stacks):
-    pops = int(move[0])
+    number_of_pops = int(move[0])
     move_from = int(move[1])
     move_to = int(move[2])
 
-    for _ in range(pops):
-        popped = stacks[move_from].pop()
-        stacks[move_to].append(popped)
+    for _ in range(number_of_pops):
+        popped = stacks[move_from - 1].pop()
+        stacks[move_to - 1].append(popped)
 
     return stacks
 
+
+def get_top_crates(stacks):
+    top_crates = ''
+    
+    for stack in stacks:
+        top_crates += stack[-1]
+
+    return top_crates
+    
 
 def main():
     input = parse_input(read_input())
     stacks = get_stacks(input)
     moves = get_moves(input)
 
-    print(moves[0][0])
-    print(moves[0][1])
-    print(moves[0][2])
+    for move in moves:
+        stacks = make_move(move, stacks)
 
-    # for move in moves:
-    #     stacks = make_move(move, stacks)
+    print(get_top_crates(stacks))
 
 
 if __name__ == '__main__':

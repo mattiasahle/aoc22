@@ -1,4 +1,4 @@
-# l = [[] for _ in range(9)]
-l = [[1]*9]
-# l[0].append(2)
-print(l)
+l1 = [1,2,3]
+l2 = [4,5]
+
+print(l1[-1])
