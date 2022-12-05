@@ -1,17 +1,17 @@
 import unittest
-import template
+import day51
 
 
 class TestDayXX(unittest.TestCase):
 
     def test_read_input(self):
-        input = template.read_input()
+        input = day51.read_input()
 
         self.assertIsNotNone(input)
 
 
     def test_parse_input(self):
-        parsed_input = template.parse_input(template.read_input())
+        parsed_input = day51.parse_input(day51.read_input())
         
         for line in parsed_input:
             self.assertNotIn('\n', line)
