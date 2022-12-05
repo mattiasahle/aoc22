@@ -7,7 +7,7 @@ def read_input():
 
 
 def parse_input(input):
-    parsed_input = [line.replace('\n', '') for line in input]
+    parsed_input = [line.rstrip('\n') for line in input]
 
     return parsed_input
 
