@@ -1,3 +1,6 @@
+MARKER_LENGTH = 14
+
+
 def read_input():
     with open("input.txt", "r") as f:
         return f.readlines()
@@ -10,16 +13,11 @@ def parse_input(input):
 
 
 def find_number_of_chars(input):
-    l = []
-
     for i in range(len(input)):
-        l.append(input[i])
+        l = input[i:i+MARKER_LENGTH]
 
-        if len(set(l)) == 14:
-            return i+1
-
-        if len(l) == 14:
-            l = l[1:]
+        if len(set(l)) == MARKER_LENGTH:
+            return i+MARKER_LENGTH
 
     return None
 
