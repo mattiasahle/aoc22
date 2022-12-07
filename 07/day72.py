@@ -1,3 +1,7 @@
+TOTAL_SPACE = 70000000
+REQUIRED_FREE_SPACE = 30000000
+
+
 def read_input():
     with open("input.txt", "r") as f:
         return f.readlines()
@@ -9,28 +13,45 @@ def parse_input(input):
     return parsed_input
 
 
-def get_used_disk_space(input):
-    used_disk_space = 0
+def get_used_space(input):
+    used_space = 0
 
     for line in input:
-        split_line = line.split(' ')
+        s = line.split(' ')[0]
 
-        if split_line[0].isdigit():
-            used_disk_space += int(split_line[0])
+        if s.isdigit():
+            used_space += int(s)
 
-    return used_disk_space
+    return used_space
 
 
-def get_remove_folder(input, need_to_free):
+def calculate_missing_free_space(input):
+    used_space = get_used_space(input)
+    free_space = TOTAL_SPACE - used_space
+    
+    return REQUIRED_FREE_SPACE - free_space
+
+
+def find_candidate(candidates, missing_free_space):
+    candidates.sort()
+
+    for candidate in candidates:
+        if candidate >= missing_free_space:
+            return candidate
+        else:
+            return None
+
+
+def find_remove_folder(input, missing_free_space):
     folder_sizes = []
-    candidate_folders = []
+    candidates = []
 
     for line in input:
         if '$ ls' in line or 'dir ' in line:
             continue
         elif '$ cd ..' in line:
-            if folder_sizes[-1] >= need_to_free:
-                candidate_folders.append(folder_sizes[-1])
+            if folder_sizes[-1] >= missing_free_space:
+                candidates.append(folder_sizes[-1])
             folder_sizes[-2] += folder_sizes[-1]
             folder_sizes.pop()
         elif '$ cd ' in line:
@@ -38,25 +59,14 @@ def get_remove_folder(input, need_to_free):
         else:
             folder_sizes[-1] += int(line.split(' ')[0])
 
-    candidate_folders.sort()
-
-    for candidate in candidate_folders:
-        if candidate >= need_to_free:
-            return candidate
-        else:
-            return None
+    return find_candidate(candidates, missing_free_space)    
 
 
 def main():
     input = parse_input(read_input())
-    used_disk_space = get_used_disk_space(input)
-    print(f'\n{used_disk_space=}')
-    free_disk_space = 70000000 - used_disk_space
-    print(f'{free_disk_space=}')
-    need_to_free = 30000000 - free_disk_space
-    print(f'{need_to_free=}')
-    remove = get_remove_folder(input, need_to_free)
-    print(f'{remove=}')
+    missing_free_space = calculate_missing_free_space(input)
+    
+    print(find_remove_folder(input, missing_free_space))
 
 
 if __name__ == '__main__':
