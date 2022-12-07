@@ -1,3 +1,7 @@
-import re
-s = 'adfsoijnf7fdsaljh323hfjdk983fhdkj8fewr32231d'
-print([int(n) for n in re.findall('\d+', s)])
+line = 'dir sfqq'
+line = '203559 nnch'
+split_line = line.split(' ')[0]
+print(split_line)
+
+if split_line.isdigit():
+    print(int(split_line))
