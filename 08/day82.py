@@ -14,75 +14,92 @@ def parse_input(input):
     return parsed_input
 
 
-def is_visible_north(input, row, column):
+def get_viewing_distance_north(input, row, column):
+    viewing_distance = 0
     tree_height = input[row][column]
 
-    while row >= 1:
+    while row > 0:
         row -= 1
         if input[row][column] >= tree_height:
-            return False
+            viewing_distance += 1
+            break
+        else:
+            viewing_distance += 1
 
-    return True
+    return viewing_distance
 
 
-def is_visible_south(input, row, column):
+def get_viewing_distance_south(input, row, column):
+    viewing_distance = 0
     tree_height = input[row][column]
 
-    while row <= 97:
+    while row < input.shape[1] - 1:
         row += 1
         if input[row][column] >= tree_height:
-            return False
+            viewing_distance += 1
+            break
+        else:
+            viewing_distance += 1
 
-    return True
+    return viewing_distance
 
 
-def is_visible_west(input, row, column):
+def get_viewing_distance_west(input, row, column):
+    viewing_distance = 0
     tree_height = input[row][column]
 
-    while column >= 1:
+    while column > 0:
         column -= 1
         if input[row][column] >= tree_height:
-            return False
+            viewing_distance += 1
+            break
+        else:
+            viewing_distance += 1
 
-    return True
+    return viewing_distance
 
 
-def is_visible_east(input, row, column):
+def get_viewing_distance_east(input, row, column):
+    viewing_distance = 0
     tree_height = input[row][column]
 
-    while column <= 97:
+    while column < input.shape[0] - 1:
         column += 1
         if input[row][column] >= tree_height:
-            return False
+            viewing_distance += 1
+            break
+        else:
+            viewing_distance += 1
 
-    return True
+    return viewing_distance
 
 
-def get_num_visible_trees(input):
-    visible_trees = input.shape[0] * 4 - 4  # Add outer trees
+def get_highest_scenic_score(input):
+    highest_scenic_score = 0
 
-    for row in range(1, len(input[:-1])):
-        for column in range(1, len(input[row][:-1])):
-            if is_visible_north(input, row, column):
-                visible_trees += 1
-            elif is_visible_south(input, row, column):
-                visible_trees += 1
-            elif is_visible_west(input, row, column):
-                visible_trees += 1
-            elif is_visible_east(input, row, column):
-                visible_trees += 1
+    for row in range(0, len(input)):
+        for column in range(0, len(input[row])):
+            viewing_distances = []
 
-    return visible_trees
+            viewing_distances.append(
+                get_viewing_distance_north(input, row, column))
+            viewing_distances.append(
+                get_viewing_distance_south(input, row, column))
+            viewing_distances.append(
+                get_viewing_distance_west(input, row, column))
+            viewing_distances.append(
+                get_viewing_distance_east(input, row, column))
+
+            highest_scenic_score = max(
+                highest_scenic_score, np.prod(viewing_distances))
+
+    return highest_scenic_score
 
 
 def main():
     input = parse_input(read_input())
-    print(get_num_visible_trees(input))
+    print(get_highest_scenic_score(input))
 
 
 if __name__ == '__main__':
     main()
-
-
-# Too high: 9409, 1737
-# Too low: 1341

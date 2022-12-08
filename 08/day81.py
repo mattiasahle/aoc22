@@ -82,7 +82,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-# Too high: 9409, 1737
-# Too low: 1341
