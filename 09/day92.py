@@ -75,13 +75,14 @@ def move_tail():
     for i in range(len(knots) - 1):
         # for i in range(1):
         head, tail = knots[i], knots[i + 1]
-        print(f'{i=}, {head=}, {tail=}')
+        # print(f'{i=}, {head=}, {tail=}')
         x_diff, y_diff = get_diffs(head, tail)
         # print(f'{x_diff=}, {y_diff=}')
 
         if not is_head_touching(x_diff, y_diff):
             move_tail_knot(head, tail, x_diff, y_diff)
 
+        # print(f'{i=}, {knots=}')
         # print()
 
     # print()
