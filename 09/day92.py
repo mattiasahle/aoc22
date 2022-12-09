@@ -1,9 +1,9 @@
-knots = [[0, 0] for _ in range(10)]
+knot_positions = [[0, 0] for _ in range(10)]
 tail_visited = set()
 
 
 def read_input():
-    with open("del_input.txt", "r") as f:
+    with open("input.txt", "r") as f:
         return f.readlines()
 
 
@@ -27,7 +27,7 @@ def is_head_touching(x_diff, y_diff):
         return False
 
 
-def convert_int_list_to_string(int_list):
+def convert_int_coordinates_to_string(int_list):
     s = str(int_list[0])
     s += ','
     s += str(int_list[1])
@@ -36,56 +36,45 @@ def convert_int_list_to_string(int_list):
 
 
 def save_tail_pos():
-    tail_visited.add(convert_int_list_to_string(knots[-1]))
-    # tail_visited.add(convert_int_list_to_string(knots[1]))
+    tail_visited.add(convert_int_coordinates_to_string(knot_positions[-1]))
 
 
-def move_tail_knot(head, tail, x_diff, y_diff):
-    x_move = max(0, abs(x_diff) - 1)
-    y_move = max(0, abs(y_diff) - 1)
+def move_tail_knot(tail, x_diff, y_diff):
+    x_move = min(1, abs(x_diff))
+    y_move = min(1, abs(y_diff))
 
-    if x_diff > 1:
-        tail[0] += x_move
-        tail[1] = head[1]
-    elif x_diff < 1:
-        tail[0] -= x_move
-        tail[1] = head[1]
+    if x_move:
+        if x_diff > 0:
+            tail[0] += x_move
+        else:
+            tail[0] -= x_move
 
-    if y_diff > 1:
-        tail[1] += y_move
-        tail[0] = head[0]
-    elif y_diff < 1:
-        tail[1] -= y_move
-        tail[0] = head[0]
+    if y_move:
+        if y_diff > 0:
+            tail[1] += y_move
+        else:
+            tail[1] -= y_move
 
 
 def move_head(move):
-    print('MOVE HEAD')
     if move == 'R':
-        knots[0][0] += 1
+        knot_positions[0][0] += 1
     elif move == 'L':
-        knots[0][0] -= 1
+        knot_positions[0][0] -= 1
     elif move == 'U':
-        knots[0][1] += 1
+        knot_positions[0][1] += 1
     elif move == 'D':
-        knots[0][1] -= 1
+        knot_positions[0][1] -= 1
 
 
 def move_tail():
-    for i in range(len(knots) - 1):
-        # for i in range(1):
-        head, tail = knots[i], knots[i + 1]
-        # print(f'{i=}, {head=}, {tail=}')
+    for i in range(len(knot_positions) - 1):
+        head, tail = knot_positions[i], knot_positions[i + 1]
         x_diff, y_diff = get_diffs(head, tail)
-        # print(f'{x_diff=}, {y_diff=}')
 
         if not is_head_touching(x_diff, y_diff):
-            move_tail_knot(head, tail, x_diff, y_diff)
+            move_tail_knot(tail, x_diff, y_diff)
 
-        # print(f'{i=}, {knots=}')
-        # print()
-
-    # print()
     save_tail_pos()
 
 
@@ -95,24 +84,17 @@ def move(line):
 
     for _ in range(steps):
         move_head(move)
-        print(f'{knots=}')
         move_tail()
-        print(f'{knots=}')
-        print()
 
 
 def main():
-    global grid, head_pos, tail_pos
     input = parse_input(read_input())
 
-    for line in input[:1]:
+    for line in input:
         move(line)
 
-    print(knots)
     print(len(tail_visited))
 
 
 if __name__ == '__main__':
     main()
-
-# Too high: 2706
