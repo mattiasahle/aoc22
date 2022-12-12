@@ -1,6 +1,5 @@
-def read_input():
-    with open("input.txt", "r") as f:
-        return f.readlines()
+def main():
+    input = parse_input(read_input())
 
 
 def parse_input(input):
@@ -9,8 +8,9 @@ def parse_input(input):
     return parsed_input
 
 
-def main():
-    input = parse_input(read_input())
+def read_input():
+    with open("input.txt", "r") as f:
+        return f.readlines()
 
 
 if __name__ == '__main__':
