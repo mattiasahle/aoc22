@@ -1,15 +1,21 @@
 import re
+from time import sleep
+import sys
+
+
+LINE_UP = '\033[1A'
+LINE_CLEAR = '\x1b[2K'
 
 
 class Monkey:
     def __init__(self,
-        starting_items: list[int],
-        operation: list[str],
-        test: int,
-        if_test_true: int,
-        if_test_false: int) -> None:
+                starting_items: list[int],
+                operation: list[str],
+                test: int,
+                if_test_true: int,
+                if_test_false: int) -> None:
         self.starting_items = starting_items # List[int...]
-        self.operation = operation # ['*' or '+', 'old' or '5']
+        self.operation = operation # ['*' or '+', int(old or number)]
         self.test = test # int
         self.if_test_true = if_test_true # int
         self.if_test_false = if_test_false # int
@@ -61,12 +67,28 @@ def main():
                 monkey.do_operation()
                 monkey_to_throw_to = monkey.get_monkey_to_throw_to()
                 monkeys[monkey_to_throw_to].starting_items.append(monkey.new_item)
+        
+        print_monkeys(monkeys)
+        clear_output(len(monkeys))
 
+    print_monkeys(monkeys)
+
+    sorted_monkeys = sorted(monkeys, key=lambda x: x.inspected_items, reverse=True)
+    print(f'\n{sorted_monkeys[0].inspected_items * sorted_monkeys[1].inspected_items}')
+
+
+def print_monkeys(monkeys):
     for i, monkey in enumerate(monkeys):
-        print(f'{i}: {monkey}')
+            # print(f'{i}: {monkey.starting_items}\t{monkey.inspected_items}')
+            # print(f'{i}: {monkey.inspected_items}')
+            print(f'{i}: {monkey.starting_items}')
+            sys.stdout.flush()
 
-    # monkeys.sort(key=lambda , reverse=True)
-    print(232 * 276)
+
+def clear_output(n_lines):
+    sleep(0.05)
+    for _ in range(n_lines):
+        print(LINE_UP, end=LINE_CLEAR)
 
 
 def parse_input(input):
